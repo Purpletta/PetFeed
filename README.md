@@ -30,3 +30,4 @@
 - [Видеопрезентация_тз](https://youtu.be/ttkTWh27fUI)
 - [Видеопрезентация_тз_резервная_ссылка](https://disk.yandex.ru/i/96-0ZtEF3x0Q4w)
 - [Видеопрезентация аналитической модели]( https://youtu.be/GaHeW2ZY9W8)
+- [Видеопрезентация проекта](https://youtu.be/i18u885HtpE)
