@@ -8,7 +8,7 @@ class Article(models.Model):
     author = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.title
+        return self.article_title
 
     class Meta:
         db_table = 'articles'
