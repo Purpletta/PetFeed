@@ -1,11 +1,11 @@
 from django.shortcuts import render
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework import generics, mixins
+from rest_framework import generics, mixins, status
 from .models import Article
 from .serializers import ArticleSerializer, ArticleCreateSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import status
+
 
 class ArticleListCreateView(generics.ListCreateAPIView):
     queryset = Article.objects.all()
