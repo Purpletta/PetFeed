@@ -42,6 +42,11 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'articles',
     'authorisation',
+    'foods',
+    'pet_feeds',
+    'pets',
+    'settings_',
+    'weight_records',
 
 ]
 REST_FRAMEWORK = {
