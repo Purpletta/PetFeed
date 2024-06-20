@@ -36,4 +36,7 @@ urlpatterns = [
     path('api/', include('authorisation.urls')),
     path('api/', include('foods.urls')),
     path('api/', include('pets.urls')),
+    path('api/', include('settings_.urls')),
+    path('api/', include('weight_records.urls')),
+    path('api/', include('pet_feeds.urls'))
 ]
