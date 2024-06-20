@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:14
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=parol12345
+      - POSTGRES_DB=peetfeed_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  web:
+    build: .
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - 8080:80
+      - 443:443
+    volumes:
+      - .:/app
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+    depends_on:
+      - web
+
+volumes:
+  postgres_data:
+
+
