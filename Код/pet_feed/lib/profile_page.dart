@@ -1,275 +1,249 @@
 import 'package:flutter/material.dart';
-import 'package:pet_feed/custom_icons.dart';
+import 'package:pet_feed/auth/activity_page.dart';
+import 'package:pet_feed/auth/spiese_page.dart';
+import 'package:pet_feed/design/custom_icons.dart';
 import 'package:pet_feed/design/colors.dart';
+import 'package:pet_feed/pet_info.dart';
+import 'package:pet_feed/user.dart';
+import 'package:pet_feed/user_provider.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class ProfilePage extends StatelessWidget {
+  // final PetInfo pet;
+
+  const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        backgroundColor: backgroundColor,
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text(
-            'PetFeed',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                color: mainWhiteColor, fontSize: 25, fontFamily: 'Aclonica'),
-          ),
-          flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  mainYellowColor,
-                  mainGreenColor,
-                ],
-              ),
-            ),
-          ),
-          bottom: const TabBar(
-            labelColor: mainWhiteColor,
-            unselectedLabelColor: textColor,
-            indicatorColor: textColor,
-            labelStyle: TextStyle(
-                fontFamily: 'Montserrat', fontWeight: FontWeight.bold),
-            tabs: [
-              Tab(
-                text: "Питомец",
-              ),
-              Tab(
-                text: "Еда",
-              ),
-              Tab(
-                text: "Советы",
-              ),
-            ],
-          ),
-        ),
-        body: TabBarView(
-          children: [
-            Container(
-              child: Column(
-                children: [
-                  Container(
-                      width: 390,
-                      height: 250,
-                      child: Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                            color: mainWhiteColor,
-                            child: const Padding(
-                              padding: EdgeInsets.all(20),
-                              child: Column(children: [
-                                Row(
+    UserInfo user = UserProvider.of(context);
+    final pet = user.findActivePet();
+    var cast_status = "";
+    if (pet.isSterilized() && pet.gender == "Мальчик") {
+      cast_status = "Кастрирован";
+    } else {
+      if (pet.isSterilized() && pet.gender == "Девочка") {
+        cast_status = "Стерилизована";
+      } else {
+        if (!pet.isSterilized() && pet.gender == "Мальчик") {
+          cast_status = "Не кастрирован";
+        } else {
+          cast_status = "Не стерилизована";
+        }
+      }
+    }
+
+    final catAsset = Image.asset(
+      'assets/img/cat.png',
+      fit: BoxFit.cover,
+    );
+
+    final dogAsset = Image.asset(
+      'assets/img/dog.png',
+      fit: BoxFit.cover,
+    );
+
+    Image myAsset;
+
+    if (pet.species == "Кошка") {
+      myAsset = catAsset;
+    } else {
+      myAsset = dogAsset;
+    }
+
+    const infoTextStyle =
+        TextStyle(color: textColor, fontFamily: 'Montserrat', fontSize: 16);
+
+    const healthTextStyle =
+        TextStyle(color: textColor, fontFamily: 'Montserrat', fontSize: 16);
+
+    return Container(
+      child: Column(
+        children: [
+          Container(
+              width: 390,
+              height: 250,
+              child: Padding(
+                padding: EdgeInsets.all(10),
+                child: Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    color: mainWhiteColor,
+                    child: Padding(
+                        padding: EdgeInsets.only(left: 20, right: 20),
+                        child: Stack(
+                          children: [
+                            Positioned.fill(
+                              child: myAsset,
+                            ),
+                            Column(children: [
+                              Row(
+                                children: [
+                                  IconButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => SpiecePage(
+                                                  pet_name: pet.name)),
+                                        );
+                                      },
+                                      icon: const Icon(Icons.edit,
+                                          color: textColor)),
+                                  Text(
+                                    pet.name,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Montserrat',
+                                        fontSize: 30,
+                                        color: textColor),
+                                  )
+                                ],
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(4),
+                                child: Row(
                                   children: [
-                                    Icon(Icons.edit, color: textColor),
+                                    const Icon(CustomIcons.pawprint,
+                                        color: textColor),
                                     Text(
-                                      " Кокос",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: 'Montserrat',
-                                          fontSize: 30,
-                                          color: textColor),
+                                      pet.species,
+                                      style: infoTextStyle,
                                     )
                                   ],
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.all(4),
-                                  child: Row(
-                                    children: [
-                                      Icon(CustomIcons.pawprint,
-                                          color: textColor),
-                                      Text(
-                                        " Кот",
-                                        style: TextStyle(
-                                            color: textColor,
-                                            fontFamily: 'Montserrat',
-                                            fontSize: 15),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(4),
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.person, color: textColor),
-                                      Text(
-                                        " Мальчик",
-                                        style: TextStyle(
-                                            color: textColor,
-                                            fontFamily: 'Montserrat',
-                                            fontSize: 15),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(4),
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.access_time_filled_outlined,
-                                          color: textColor),
-                                      Text(
-                                        " 3 года",
-                                        style: TextStyle(
-                                            color: textColor,
-                                            fontFamily: 'Montserrat',
-                                            fontSize: 15),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(4),
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.medication_outlined,
-                                          color: textColor),
-                                      Text(
-                                        " Кастрирован",
-                                        style: TextStyle(
-                                            color: textColor,
-                                            fontFamily: 'Montserrat',
-                                            fontSize: 15),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ]),
-                            )),
-                      )),
-                  const Padding(
-                    padding: EdgeInsets.fromLTRB(40, 0, 0, 0),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.edit,
-                          color: textColor,
-                        ),
-                        Text(
-                          ' Здоровье',
-                          style: TextStyle(
-                              color: textColor,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Montserrat',
-                              fontSize: 25),
-                        )
-                      ],
-                    ),
-                  ),
-                  Container(
-                      width: 390,
-                      height: 210,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 5, 5, 20),
-                        child: Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                            color: mainWhiteColor,
-                            child: const Padding(
-                              padding: EdgeInsets.all(20),
-                              child: Column(children: [
-                                Padding(
-                                  padding: EdgeInsets.all(3),
-                                  child: Row(children: [
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(4),
+                                child: Row(
+                                  children: [
+                                    const Icon(Icons.person, color: textColor),
                                     Text(
-                                      "Активность",
-                                      style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          fontSize: 20,
-                                          color: textColor),
-                                    ),
-                                    Text(
-                                      "Высокая",
-                                      style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          fontSize: 20,
-                                          color: textColor),
-                                      textAlign: TextAlign.right,
-                                    ),
-                                  ]),
+                                      pet.gender,
+                                      style: infoTextStyle,
+                                    )
+                                  ],
                                 ),
-                                Divider(),
-                                Padding(
-                                  padding: EdgeInsets.all(3),
-                                  child: Row(children: [
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(4),
+                                child: Row(
+                                  children: [
+                                    const Icon(
+                                        Icons.access_time_filled_outlined,
+                                        color: textColor),
                                     Text(
-                                      "Вес",
-                                      style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          fontSize: 20,
-                                          color: textColor),
-                                    ),
-                                    Text(
-                                      "4.5 кг",
-                                      style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          fontSize: 20,
-                                          color: textColor),
-                                    ),
-                                  ]),
+                                      "${pet.age} лет",
+                                      style: infoTextStyle,
+                                    )
+                                  ],
                                 ),
-                                Divider(),
-                                Padding(
-                                  padding: EdgeInsets.all(3),
-                                  child: Row(children: [
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(4),
+                                child: Row(
+                                  children: [
+                                    const Icon(Icons.medication_outlined,
+                                        color: textColor),
                                     Text(
-                                      "Болезни",
-                                      style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          fontSize: 20,
-                                          color: textColor),
-                                    ),
-                                    Text(
-                                      "Нет",
-                                      style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          fontSize: 20,
-                                          color: textColor),
-                                    ),
-                                  ]),
+                                      cast_status,
+                                      style: infoTextStyle,
+                                    )
+                                  ],
                                 ),
-                              ]),
-                            )),
-                      )),
-                ],
-              ),
+                              ),
+                            ]),
+                          ],
+                        ))),
+              )),
+          Padding(
+            padding: const EdgeInsets.only(left: 40),
+            child: Row(
+              children: [
+                IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                ActivityPage(pet_name: pet.name)),
+                      );
+                    },
+                    icon: const Icon(
+                      Icons.edit,
+                      color: textColor,
+                    )),
+                const Text(
+                  ' Здоровье',
+                  style: TextStyle(
+                      color: textColor,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Montserrat',
+                      fontSize: 25),
+                )
+              ],
             ),
-            Container(
-              color: mainGreenColor,
-            ),
-            Container(
-              color: mainYellowColor,
-            ),
-          ],
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _currentIndex,
-          // onTap: (int newIndex) {
-          //   setState((){
-          //     _currentIndex = newIndex;
-          //   });
-          // }
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.menu), label: 'Питомцы'),
-            BottomNavigationBarItem(
-                icon: Icon(CustomIcons.pawprint), label: 'Главное'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.settings), label: 'Настройки'),
-          ],
-          selectedLabelStyle: const TextStyle(
-              fontFamily: 'Montserrat', fontWeight: FontWeight.bold),
-          unselectedLabelStyle: const TextStyle(fontFamily: 'Montserrat'),
-          backgroundColor: bottomNavBarColor,
-          unselectedItemColor: textColor,
-          selectedItemColor: mainGreenColor,
-        ),
+          ),
+          Container(
+              width: 390,
+              height: 200,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 5, 5, 20),
+                child: Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    color: mainWhiteColor,
+                    child: Padding(
+                        padding: EdgeInsets.all(20),
+                        child: Center(
+                          child: Table(
+                            columnWidths: const {
+                              0: FlexColumnWidth(3),
+                              1: FlexColumnWidth(2)
+                            },
+                            children: [
+                              TableRow(
+                                children: [
+                                  const Text(
+                                    "Активность",
+                                    style: healthTextStyle,
+                                  ),
+                                  Text(
+                                    pet.activity,
+                                    style: healthTextStyle,
+                                    textAlign: TextAlign.right,
+                                  )
+                                ],
+                              ),
+                              TableRow(
+                                children: [
+                                  const Text(
+                                    "Вес",
+                                    style: healthTextStyle,
+                                  ),
+                                  Text(
+                                    "${pet.weight} кг",
+                                    style: healthTextStyle,
+                                    textAlign: TextAlign.right,
+                                  )
+                                ],
+                              ),
+                              TableRow(
+                                children: [
+                                  const Text(
+                                    "Особенности",
+                                    style: healthTextStyle,
+                                  ),
+                                  Text(
+                                    pet.diseases,
+                                    style: healthTextStyle,
+                                    textAlign: TextAlign.right,
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        ))),
+              )),
+        ],
       ),
     );
   }
