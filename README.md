@@ -32,3 +32,4 @@
 - [Видеопрезентация аналитической модели]( https://youtu.be/GaHeW2ZY9W8)
 - [Видеопрезентация проекта](https://youtu.be/i18u885HtpE)
 - [Видео по разработке серверной части приложения](https://youtu.be/DJ0nJWHYsPs)
+- [Демонстрация клиентской части приложения](https://drive.google.com/file/d/1qRq4G8AMe7JR9uAP65Yi-djr1rfZGFGb/view?usp=sharing)
